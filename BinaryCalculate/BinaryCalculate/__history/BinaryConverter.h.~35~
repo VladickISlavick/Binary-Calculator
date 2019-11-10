@@ -1,0 +1,29 @@
+//---------------------------------------------------------------------------
+
+#ifndef BinaryConverterH
+#define BinaryConverterH
+#include <dstring.h>
+//---------------------------------------------------------------------------
+class BinaryConverter {
+private:
+    //AnsiString operation =
+	const int size = 16;
+	void SearchOperation(String expression);
+public:
+	String expression;
+
+	enum eOperation{
+		NONE = 0, ADD = 1, SUBT = 2, MULTI = 3, DIVISION = 4
+	}MathOperation;
+
+	BinaryConverter();
+	BinaryConverter(String expression);
+
+	AnsiString toBinary(String str);
+	AnsiString toInversingBinary(String str);
+	AnsiString SearchDigit(String expression);
+
+    int StrLen(char* str);
+};
+//---------------------------------------------------------------------------
+#endif

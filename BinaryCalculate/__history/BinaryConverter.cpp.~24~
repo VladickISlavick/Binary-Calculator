@@ -1,0 +1,29 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+
+#include "BinaryConverter.h"
+//---------------------------------------------------------------------------
+BinaryConverter::BinaryConverter(){
+	MathOperation = eOperation::NONE;
+}
+
+BinaryConverter::BinaryConverter(String expression){
+	MathOperation = eOperation::NONE;
+	this->expression = expression;
+}
+
+void BinaryConverter::SearchOperation(String expression){
+	for (int i = 0; i < expression.length; i++) {
+		switch (expression[i]) {
+			case "+":MathOperation = eOperation::ADD; break;
+			case "-":MathOperation = eOperation::SUBT; break;
+			case "*":MathOperation = eOperation::MULTI; break;
+			case "/":MathOperation = eOperation::DIVISION; break;
+		}
+	}
+}
+
+
+//---------------------------------------------------------------------------
+#pragma package(smart_init)

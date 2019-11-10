@@ -1,0 +1,306 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit2.h"
+#include <dstring.h>
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm2 *Form2;
+//---------------------------------------------------------------------------
+BinaryConverter *binary;
+AnsiString *firstDigit;
+AnsiString *secondDigit;
+AnsiString *result;
+AnsiString *expression;
+AnsiString *MATHOPERATION;
+bool mathOperation;
+//---------------------------------------------------------------------------
+__fastcall TForm2::TForm2(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void Calculate(){
+	float valueFirst;
+	float valueSecond;
+	const char* strFirstDigit = firstDigit->c_str();
+	const char* strSecondDigit = secondDigit->c_str();
+
+	if (strFirstDigit[0] == '-' && strSecondDigit[0] == '-') {
+		AnsiString strTemp = binary->deleteMinus(*firstDigit);
+		AnsiString strTemp1 = binary->deleteMinus(*secondDigit);
+
+		valueFirst = -1 * StrToFloat(strTemp);
+		valueSecond = -1 * StrToFloat(strTemp1);
+	}else if (strFirstDigit[0] == '-' && strSecondDigit[0] != '-') {
+		AnsiString strTemp = binary->deleteMinus(*firstDigit);
+
+		valueFirst = -1 * StrToFloat(strTemp);
+		valueSecond = StrToFloat(*secondDigit);
+	}else if (strFirstDigit[0] != '-' && strSecondDigit[0] == '-') {
+		AnsiString strTemp1 = binary->deleteMinus(*secondDigit);
+
+		valueFirst = StrToFloat(*firstDigit);
+		valueSecond = -1 * StrToFloat(strTemp1);
+	}else {
+		valueFirst = StrToFloat(*firstDigit);
+		valueSecond = StrToFloat(*secondDigit);
+	}
+
+	switch (binary->MathOperation) {
+	case BinaryConverter::eOperation::NONE:return;
+	case BinaryConverter::eOperation::ADD://сложение
+		MATHOPERATION = new AnsiString("+");
+
+		result = new AnsiString(FloatToStr(valueFirst + valueSecond));
+	break;
+	case BinaryConverter::eOperation::SUBT://вычитание
+		//valueFirst = StrToFloat(*firstDigit);
+		//valueSecond = StrToFloat(*secondDigit);
+		MATHOPERATION = new AnsiString("-");
+
+		result = new AnsiString(FloatToStr(valueFirst - valueSecond));
+	break;
+	case BinaryConverter::eOperation::MULTI://умножение
+		//valueFirst = StrToFloat(*firstDigit);
+		//valueSecond = StrToFloat(*secondDigit);
+		MATHOPERATION = new AnsiString("*");
+
+		result = new AnsiString(FloatToStr(valueFirst * valueSecond));
+	break;
+	case BinaryConverter::eOperation::DIVISION://деление
+		//valueFirst = StrToFloat(*firstDigit);
+		//valueSecond = StrToFloat(*secondDigit);
+		MATHOPERATION = new AnsiString("/");
+
+		result = new AnsiString(FloatToStr(valueFirst / valueSecond));
+	break;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::CalcClick(TObject *Sender)
+{
+	if (Edit1->Text != "") {
+		expression  = new AnsiString(Edit1->Text);
+		firstDigit  = new AnsiString(binary->SearchDigit(*expression));
+		secondDigit = new AnsiString(binary->SearchDigit(*expression));
+
+		Calculate();
+
+		Edit1->Text = "";
+
+		const char* strFirstDigit = firstDigit->c_str();
+		const char* strSecondDigit = secondDigit->c_str();
+
+		if (strFirstDigit[0] == '-' && strSecondDigit[0] == '-') {
+			AnsiString binaryFirstString = binary->toBinary(*firstDigit);
+			AnsiString binarySecondString = binary->toBinary(*secondDigit);
+
+			Label1->Caption = binary->toInversingBinary(binaryFirstString);
+			Label2->Caption = *MATHOPERATION;
+			Label3->Caption = binary->toInversingBinary(binarySecondString);
+			Label4->Caption = binary->toBinary(*result);
+		}else if (strFirstDigit[0] == '-' && strSecondDigit[0] != '-') {
+			AnsiString binaryFirstString = binary->toBinary(*firstDigit);
+
+			Label1->Caption = binary->toInversingBinary(binaryFirstString);
+			Label2->Caption = *MATHOPERATION;
+			Label3->Caption = binary->toBinary(*secondDigit);
+
+			AnsiString binaryResult = binary->toBinary(*firstDigit);
+			Label4->Caption = binary->toInversingBinary(binaryResult);
+
+		}else if (strFirstDigit[0] != '-' && strSecondDigit[0] == '-') {
+			AnsiString binarySecondString = binary->toBinary(*secondDigit);
+
+			Label1->Caption = binary->toBinary(*firstDigit);
+			Label2->Caption = *MATHOPERATION;
+			Label3->Caption = binary->toInversingBinary(binarySecondString);
+
+			AnsiString binaryResult = binary->toBinary(*firstDigit);
+			Label4->Caption = binary->toInversingBinary(binaryResult);
+		}else {
+			Label1->Caption = binary->toBinary(*firstDigit);
+			Label2->Caption = *MATHOPERATION;
+			Label3->Caption = binary->toBinary(*secondDigit);
+			Label4->Caption = binary->toBinary(*result);
+		}
+
+Label6->Caption = *firstDigit + *MATHOPERATION + *secondDigit + " = " + *result;
+
+		mathOperation = false;
+	}else{
+		Label5->Caption = "Введите пример";
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Load(TObject *Sender)
+{
+
+	Edit1->Text = "";
+	binary = new BinaryConverter();
+	mathOperation = false;
+
+	//чтобы их можно было перемещать на форме
+	Label1->Caption = "";
+	Label2->Caption = "";
+	Label3->Caption = "";
+	Label4->Caption = "";
+	Label5->Caption = "";
+	Label6->Caption = "";
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Close(TObject *Sender, TCloseAction &Action)
+{
+	delete binary;
+	delete expression;
+	delete result;
+	delete firstDigit;
+	delete secondDigit;
+	delete MATHOPERATION;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button0Click(TObject *Sender)
+{
+	/*	AnsiString s = "-2";
+		AnsiString d = binary->toBinary(s);
+		AnsiString a = binary->toInversingBinary(d);
+	*/
+
+	Edit1->Text += Button0->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button1Click(TObject *Sender)
+{
+	Edit1->Text += Button1->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button2Click(TObject *Sender)
+{
+	Edit1->Text += Button2->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button3Click(TObject *Sender)
+{
+	Edit1->Text += Button3->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button4Click(TObject *Sender)
+{
+	Edit1->Text += Button4->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button5Click(TObject *Sender)
+{
+	Edit1->Text += Button5->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button6Click(TObject *Sender)
+{
+	Edit1->Text += Button6->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button7Click(TObject *Sender)
+{
+	Edit1->Text += Button7->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button8Click(TObject *Sender)
+{
+	Edit1->Text += Button8->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Button9Click(TObject *Sender)
+{
+	Edit1->Text += Button9->Caption;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::ButtonSubtClick(TObject *Sender)
+{
+	if (Edit1->Text == "") Edit1->Text += '-';
+	else if (Edit1->Text == '-')return;
+
+	if (!mathOperation) {
+		binary->MathOperation = BinaryConverter::eOperation::SUBT;
+		mathOperation = true;
+		Edit1->Text += ButtonSubt->Caption;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::ButtonDivisionClick(TObject *Sender)
+{
+	if (Edit1->Text == "")return;
+	else if (Edit1->Text == '-')return;
+
+	if (!mathOperation) {
+		binary->MathOperation = BinaryConverter::eOperation::DIVISION;
+		mathOperation = true;
+		Edit1->Text += ButtonDivision->Caption;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::ButtonAddClick(TObject *Sender)
+{
+	if (Edit1->Text == "")return;
+	else if (Edit1->Text == '-')return;
+
+	if (!mathOperation) {
+		binary->MathOperation = BinaryConverter::eOperation::ADD;
+		mathOperation = true;
+		Edit1->Text += ButtonAdd->Caption;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::ButtonMultiClick(TObject *Sender)
+{
+	if (Edit1->Text == "")return;
+	else if (Edit1->Text == '-')return;
+
+	if (!mathOperation) {
+		binary->MathOperation = BinaryConverter::eOperation::MULTI;
+		mathOperation = true;
+		Edit1->Text += ButtonMulti->Caption;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::ButtonCEClick(TObject *Sender)
+{
+	mathOperation = false;
+
+	Label1->Caption = "";
+	Label2->Caption = "";
+	Label3->Caption = "";
+	Label4->Caption = "";
+	Label5->Caption = "";
+
+	Label6->Caption = "";
+
+	Edit1->Text = "";
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::ButtonClearSymbolClick(TObject *Sender)
+{
+	AnsiString text = Edit1->Text;
+	const char* textStr = text.c_str();
+	int length = StrLen(textStr) - 1;
+	Edit1->Text = "";
+    mathOperation = false;
+
+	for (int i = 0; i < length; i++) {
+		Edit1->Text += textStr[i];
+	}
+
+	Label1->Caption = "";
+	Label2->Caption = "";
+	Label3->Caption = "";
+	Label4->Caption = "";
+	Label5->Caption = "";
+
+	Label6->Caption = "";
+
+	Edit1->Text = "";
+}
+//---------------------------------------------------------------------------

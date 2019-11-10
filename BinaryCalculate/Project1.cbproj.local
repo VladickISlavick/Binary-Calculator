@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.307,=C:\Users\user\Desktop\BinaryCalculate\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.867,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit2.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.800,C:\Users\user\Desktop\BinaryCalculate\Project1.cbproj=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.863,C:\Users\user\Desktop\BinaryCalculate\Unit2.h=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit2.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.863,C:\Users\user\Desktop\BinaryCalculate\Unit2.dfm=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.363,=C:\Users\user\Desktop\BinaryCalculate\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.434,C:\Users\user\Desktop\BinaryCalculate\Project1PCH1.h=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.723,=C:\Users\user\Desktop\Project\BinaryCalculate\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.040,C:\Users\user\Desktop\BinaryCalculate\BinaryConverter.cpp=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.319,C:\Users\user\Desktop\BinaryCalculate\BinaryConverter.cpp=C:\Users\user\Desktop\BinaryCalculate\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.319,C:\Users\user\Desktop\BinaryCalculate\BinaryConverter.h=C:\Users\user\Desktop\BinaryCalculate\Unit1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.211,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.863,C:\Users\user\Desktop\BinaryCalculate\Unit2.cpp=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit2.cpp</Transaction>
+  </Transactions>
+</BorlandProject>
